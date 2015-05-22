@@ -1,0 +1,171 @@
+// [ global ]
+$padding-default         : 15px !default;
+$border-default-radius   : 5px !default;
+$triangle-default-width  : 6px !default;
+$border-default-color    : #e0e0e0 !default;
+$input-default-font-size : 12px !default;
+$input-default-bg        : #f5f5f5 !default;
+// [ avatar ]
+$avatar-default-size     : 60px !default;
+// [ label ]
+$label-default-bg        : #fff !default;
+$label-default-color     : #afaeb0 !default;
+$label-default-height    : 38px !default;
+// [ item ]
+$item-default-bg         : $label-default-bg !default;
+$item-hover-bg           : #f5f5f5 !default;
+// ---------------
+%default-border {
+  border-style: solid;
+  border-color: $border-default-color;
+}
+
+.selectem {
+  position: relative;
+  &, 
+  * { @include box-sizing(border-box); }
+}
+
+// selectem_label
+.selectem {
+  &_label {
+    @extend %default-border;
+    border-width: 1px;
+    background-color: $label-default-bg;
+    color: $label-default-color;
+    cursor: pointer;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    padding: 0 0 0 $padding-default;
+    height: $label-default-height;
+    line-height: $label-default-height;
+    @include border-radius($border-default-radius);
+    white-space: nowrap;
+  }
+  // selectem-input
+  &-input {
+    background-color: $input-default-bg;
+    font-size: $input-default-font-size;
+    padding: $padding-default;
+    width: 100%;
+    border: 0;
+    margin: 0;
+    &:focus, 
+    &:active { outline: 0; }
+  }
+}
+
+// selectem_dropdown
+.selectem {
+  @include perspective(600px);
+  &_dropdown {
+    @include transparent;
+    z-index: -20;
+    height: 0;
+    @extend %default-border;
+    border-width: 0 1px 1px;
+    @include backface-visibility(hidden);
+    @include transition (all 0.3s ease);
+    @include transform (scale(0.1) rotateX(91deg)); 
+  } 
+  
+  &.is-active {
+    .selectem_dropdown {
+      z-index: 20;
+      @include opaque;
+      visibility: visible;
+      height: auto;
+      @include transform (scale(1) rotateY(0deg) translateY(0) translateZ(0px));
+    }
+  }
+}
+
+// selectem-items
+.selectem {
+  &-items {
+    background-color: $item-default-bg;
+    border-collapse: collapse;
+    list-style: none;
+    display: table;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    > li {
+      @extend %default-border;
+      border-width: 1px 0 0;
+      display: table-row;
+      cursor: pointer;
+      > * {
+        display: table-cell;
+        vertical-align: middle;
+        padding: ($padding-default - 10) ($padding-default - 5);
+      }
+      &:hover {
+        background-color: $item-hover-bg;
+      }
+    }
+    .item-avatar {
+      width: $avatar-default-size;
+      img {
+        max-width : 100%;
+        max-height: 100%;
+      }
+    }
+  }
+}
+
+
+// selectem triangle
+.selectem {
+  &:after, 
+  &:before {
+    right: $padding-default;
+    border: solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    border-width: $triangle-default-width;
+  }
+  // ⌄
+  &:after {
+    border-color: rgba(205, 206, 209, 0);
+    border-top-color: $label-default-bg;
+    top: $padding-default;
+  }
+  &:before {
+    border-color: rgba(245, 27, 20, 0);
+    border-top-color: $border-default-color;
+    top: $padding-default + 2; //~12px
+  }
+}
+
+// selectim active state
+.selectem {
+  &.is-active {
+    .selectem_label {
+      @include border-radius($border-default-radius $border-default-radius 0 0);
+    }
+    // ⌃
+    &:after {
+      border-color: rgba(205, 206, 209, 0);
+      border-bottom-color: $label-default-bg;
+      top: $padding-default - 4;
+    }
+    &:before {
+      border-color: rgba(245, 27, 20, 0);
+      border-bottom-color: $border-default-color;
+      top: $padding-default - 6;
+    }
+    .selectem--dropdown {
+      z-index: 20;
+      opacity: 1;
+      visibility: visible;
+      height: auto;
+      @include transform (scale(1) rotateY(0deg) translateY(0) translateZ(0px));
+    }
+  }
+}
