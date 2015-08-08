@@ -70,6 +70,7 @@
   -ms-transform: scale(0.1) rotateX(91deg);
   -webkit-transform: scale(0.1) rotateX(91deg);
   transform: scale(0.1) rotateX(91deg);
+  overflow: hidden;
 }
 .selectem.is-active .selectem_dropdown {
   z-index: 20;
